@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+    vector<int> arr(n);
+    int maxi = INT_MIN;
+
+    // Input array and find maximum element
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+        maxi = max(arr[i], maxi);
+    }
+
+    // Frequency array to count divisors
+    vector<int> freq(maxi + 1, 0);
+    for (int i = 0; i < n; i++) {
+        for (int num = 1; num <= sqrt(arr[i]); num++) {
+            if (arr[i] % num == 0) {
+                freq[num]++;
+                if (num != arr[i] / num) {
+                    freq[arr[i] / num]++;
+                }
+            }
+        }
+    }
+
+    // Find the largest divisor with frequency >= 2
+    int ans = 0;
+    for (int i = maxi; i >= 1; i--) {
+        if (freq[i] > 1) {
+            ans = i;
+            break;
+        }
+    }
+
+    cout << ans << endl;
+    return 0;
+}
